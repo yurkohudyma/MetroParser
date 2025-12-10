@@ -14,7 +14,7 @@ The project uses Java 19, is built using Maven, and includes basic unit tests wi
 📋 Requirements:</br>
 <li>Java JDK 19</li>
 <li>Apache Maven 3.8+</li>
-
+</br>
 Check your versions:</br>
 <i>java -version</i></br>
 <i>mvn -version</i>
@@ -27,8 +27,7 @@ This command:
 <li>compiles the source code (configured for Java 16 via the maven-compiler-plugin)</li>
 <li>runs the tests</li>
 <li>produces a JAR file at target/MetroParser-1.0.jar</li>
-
-
+</br>
 📥 Install to local Maven repository</br>
 <i>mvn clean install</i>
 
