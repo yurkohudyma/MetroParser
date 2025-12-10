@@ -10,6 +10,7 @@ import static ua.hudyma.ErrorCode.*;
 public class Validator {
     private static final String PHONE_REGEX = "^\\d{10,15}$";
     private static final String DATE_REGEX = "^\\d{8}$";
+    private static final int METRO2_FILE_FORMAT_LENGTH = 426;
 
     protected static ErrorCode validate(String fieldName, String rawData) {
         if (isNullOrEmpty(rawData)) return CRITICAL;
@@ -41,5 +42,7 @@ public class Validator {
         return rawData == null || rawData.isBlank();
     }
 
-
+    public static ErrorCode validateRawData(String rawData) {
+        return rawData.length() == METRO2_FILE_FORMAT_LENGTH ? NO_ERROR : SEVERE;
+    }
 }

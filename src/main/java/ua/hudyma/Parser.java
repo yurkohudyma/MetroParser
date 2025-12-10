@@ -8,9 +8,12 @@ import java.util.*;
 
 import static ua.hudyma.ErrorCode.CRITICAL;
 import static ua.hudyma.ErrorCode.NO_ERROR;
+import static ua.hudyma.Validator.validate;
+import static ua.hudyma.Validator.validateRawData;
 
 public class Parser {
     private static final String FILE_URL = "res//metro.txt";
+    private static final int METRO2_FILE_FORMAT_LENGTH = 426;
     private static final List<ErrorLog> errorList = new ArrayList<>();
 
     public static void main(String[] args) throws
@@ -35,6 +38,16 @@ public class Parser {
         var reader = new ThreadSafeReader(
                 new BufferedReader(new FileReader(FILE_URL), 128 * 1024));
         var rawData = reader.readLine();
+        var rawDataerrorCode = validateRawData(rawData);
+        if (rawDataerrorCode != NO_ERROR){
+            errorList.add(new ErrorLog(
+                    "rawDataFile",
+                    rawDataerrorCode,
+                    "NA",
+                    String.format("File length = %d, while required = %d", rawData.length(), METRO2_FILE_FORMAT_LENGTH
+
+            )));
+        }
         var headerEnumSet = EnumSet.allOf(Header.class);
         var map = new LinkedHashMap<String, String>();
         for (Header entry : headerEnumSet) {
@@ -43,7 +56,7 @@ public class Parser {
                     entry.getStartIndex() + entry.getLength() - 1);
             var fieldName = entry.getFieldName();
             map.put(fieldName, rawDataString);
-            var errorCode = Validator.validate(fieldName, rawDataString);
+            var errorCode = validate(fieldName, rawDataString);
             if (!errorCode.equals(NO_ERROR)) {
                 errorList.add(new ErrorLog(
                         fieldName,
