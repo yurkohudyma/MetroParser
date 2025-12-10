@@ -3,11 +3,12 @@ package ua.hudyma;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import static ua.hudyma.ErrorCode.*;
 
 public class Validator {
-    private static final String PHONE_REGEX = "^d{10,15}$";
+    private static final String PHONE_REGEX = "^\\d{10,15}$";
     private static final String DATE_REGEX = "^\\d{8}$";
 
     public static ErrorCode validate(String fieldName, String rawData) {
@@ -23,7 +24,12 @@ public class Validator {
     private static ErrorCode validateDate(String rawData) {
         if (!rawData.matches(DATE_REGEX)) return RELEVANT;
         var formatter = DateTimeFormatter.ofPattern("MMddyyyy");
-        var data = LocalDate.parse(rawData, formatter).atStartOfDay();
+        LocalDateTime data;
+        try {
+            data = LocalDate.parse(rawData, formatter).atStartOfDay();
+        } catch (DateTimeParseException e) {
+            return RELEVANT;
+        }
         return data.isBefore(LocalDateTime.now()) ? NO_ERROR : SEVERE;
 }
 
