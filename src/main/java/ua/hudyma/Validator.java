@@ -11,7 +11,7 @@ public class Validator {
     private static final String PHONE_REGEX = "^\\d{10,15}$";
     private static final String DATE_REGEX = "^\\d{8}$";
 
-    public static ErrorCode validate(String fieldName, String rawData) {
+    protected static ErrorCode validate(String fieldName, String rawData) {
         if (isNullOrEmpty(rawData)) return CRITICAL;
         return switch (fieldName) {
             case "activityDate", "dateCreated", "programDate", "programRevisionDate"
@@ -33,7 +33,7 @@ public class Validator {
         return data.isBefore(LocalDateTime.now()) ? NO_ERROR : SEVERE;
 }
 
-    public static ErrorCode isPhoneValid(String phoneNumber) {
+    protected static ErrorCode isPhoneValid(String phoneNumber) {
         return phoneNumber.matches(PHONE_REGEX) ? NO_ERROR : RELEVANT;
     }
 

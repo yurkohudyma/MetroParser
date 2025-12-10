@@ -5,10 +5,10 @@ import java.io.IOException;
 
 public class ThreadSafeReader {
     private final BufferedReader reader;
-    public ThreadSafeReader(BufferedReader reader) {
+    protected ThreadSafeReader(BufferedReader reader) {
         this.reader = reader;
     }
-    public synchronized String readLine() throws IOException {
+    protected synchronized String readLine() throws IOException {
         return reader.readLine();
     }
 }

@@ -8,8 +8,7 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static ua.hudyma.ErrorCode.NO_ERROR;
-import static ua.hudyma.ErrorCode.SEVERE;
+import static ua.hudyma.ErrorCode.*;
 import static ua.hudyma.Validator.validate;
 
 public class ParserTest {
