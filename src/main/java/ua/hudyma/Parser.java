@@ -1,6 +1,7 @@
 package ua.hudyma;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -15,6 +16,16 @@ public class Parser {
     private static final String FILE_URL = "res//metro.txt";
     private static final int METRO2_FILE_FORMAT_LENGTH = 426;
     private static final List<ErrorLog> errorList = new ArrayList<>();
+    private static final ThreadLocal<ThreadSafeReader> reader =
+            ThreadLocal.withInitial(() ->
+            {
+                try {
+                    return new ThreadSafeReader(new BufferedReader(
+                            new FileReader(FILE_URL), 128 * 1024));
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+            });
 
     public static void main(String[] args) throws
             IOException, InvocationTargetException,
@@ -32,21 +43,26 @@ public class Parser {
         System.out.println("ERRORS found: " + errorList.size());
         System.out.println();
         errorList.stream().filter(error -> error.errorCode() == CRITICAL).forEach(System.out::println);
+        List<String> queue = new Vector<>();
+        var s = 1 >> 1;
+
+    }
+
+    public static String read() throws IOException {
+        return reader.get().readLine();
     }
 
     private static Map<String, String> readRawDataAndCreateHeaderMap() throws IOException {
-        var reader = new ThreadSafeReader(
-                new BufferedReader(new FileReader(FILE_URL), 128 * 1024));
-        var rawData = reader.readLine();
+        var rawData = read();
         var rawDataerrorCode = validateRawData(rawData);
-        if (rawDataerrorCode != NO_ERROR){
+        if (rawDataerrorCode != NO_ERROR) {
             errorList.add(new ErrorLog(
                     "rawDataFile",
                     rawDataerrorCode,
                     "NA",
                     String.format("File length = %d, while required = %d", rawData.length(), METRO2_FILE_FORMAT_LENGTH
 
-            )));
+                    )));
         }
         var headerEnumSet = EnumSet.allOf(Header.class);
         var map = new LinkedHashMap<String, String>();
