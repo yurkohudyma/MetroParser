@@ -1,4 +1,4 @@
-<h2>METRO2 file format Parser and Validator</h2>
+<h2>METRO2 file format Parser and Validator (HEADER edition)</h2>
 MetroParser is a simple Maven-based Java project intended for parsing METRO2 data.
 The project uses Java 19, is built using Maven, and includes basic unit tests with JUnit 5.
 
@@ -15,6 +15,7 @@ The project uses Java 19, is built using Maven, and includes basic unit tests wi
 <li>Java JDK 19</li>
 <li>Apache Maven 3.8+</li>
 </br>
+
 Check your versions:</br>
 <i>java -version</i></br>
 <i>mvn -version</i>
@@ -28,6 +29,7 @@ This command:
 <li>runs the tests</li>
 <li>produces a JAR file at target/MetroParser-1.0.jar</li>
 </br>
+
 📥 Install to local Maven repository</br>
 <i>mvn clean install</i>
 
